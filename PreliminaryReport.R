@@ -30,4 +30,80 @@ install.packages("lpSolve")
 install.packages("lpSolveAPI")
 require(lpSolve)
 library(lpSolveAPI)
-?lpSolve
+?lp
+#example
+
+# this sets up the LP Model -  (Number of constraints , decision variables)
+
+# X_1:         	Number of units of AS1 produced through regular run.
+# X_2: 		Number of units of AS2 produced through regular run.
+# X_3: 		Number of units of AS3 produced through regular run.
+# Y_1: 		Number of units of AS1 produced through special run.
+# Y_2: 		Number of units of AS2 produced through special run.
+# Y_3: 		Number of units of AS3 produced through special run. 
+
+
+# Constraints are 
+# Demand for AS1, Demand for AS2: Demand for AS3:
+# Machining time constraint: Assembly time constraint: Finishing time constraint:        
+
+# Decision variables are Regular A1, A2, A3 and Special A1, A2, A3
+
+# Objective Function is to 
+# Minimize total production cost = Cost under regular run + Cost under special run. 
+# Cost = Specify an appropriate linear function of the decisions variables and parameters.
+
+
+
+lprec <- make.lp(3, 3)
+set.objfn(lprec, c(1, 3, 6.24))
+add.constraint(lprec, c(0, 78.26, 0, 2.9), ">=", 92.3)
+add.constraint(lprec, c(0.24, 0, 11.31, 0), "<=", 14.8)
+add.constraint(lprec, c(12.68, 0, 0.08, 0.9), ">=", 4)
+set.bounds(lprec, lower = c(28.6, 18), columns = c(1, 4))
+set.bounds(lprec, upper = 48.98, columns = 4)
+RowNames <- c("THISROW", "THATROW", "LASTROW")
+ColNames <- c("COLONE", "COLTWO", "COLTHREE", "COLFOUR")
+dimnames(lprec) <- list(RowNames, ColNames)
+
+?make.lp
+?set.objfn
+?add.constraint
+
+
+#create an LP model with 10 constraints and 12 decision variables
+
+lpmodel&lt;-make.lp(2*NROW(train)+NROW(cargo),12)
+
+#I used this to keep count within the loops, I admit that this could be done a lot neater
+column&lt;-0
+row&lt;-0
+
+#build the model column per column
+for(wg in train$wagon){
+        row&lt;-row+1
+        for(type in seq(1,NROW(cargo$type))){
+                column&lt;-column+1
+                
+                #this takes the arguments 'column','values' &amp; 'indices' (as in where these values should be placed in the column)
+                set.column(lpmodel,column,c(1, cargo[type,'volume'],1), indices=c(row,NROW(train)+row, NROW(train)*2+type))
+        }}
+
+#set rhs weight constraints
+set.constr.value(lpmodel, rhs=train$weightcapacity, constraints=seq(1,NROW(train)))
+
+#set rhs volume constraints
+set.constr.value(lpmodel, rhs=train$spacecapacity, constraints=seq(NROW(train)+1,NROW(train)*2))
+
+
+#set rhs volume constraints
+set.constr.value(lpmodel, rhs=cargo$available, constraints=seq(NROW(train)*2+1,NROW(train)*2+NROW(cargo)))
+
+#set objective coefficients
+set.objfn(lpmodel, rep(cargo$profit,NROW(train)))
+
+#set objective direction
+lp.control(lpmodel,sense='max')
+
+#I in order to be able to visually check the model, I find it useful to write the model to a text file
+write.lp(lpmodel,'model.lp',type='lp')
