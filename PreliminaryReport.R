@@ -55,21 +55,22 @@ library(lpSolveAPI)
 
 #test
 
-lprec <- make.lp(3, 3)
+lprec <- make.lp(4, 3)
 set.objfn(lprec, c(1, 3, 6.24))
-add.constraint(lprec, c(0, 78.26, 0, 2.9), ">=", 92.3)
-add.constraint(lprec, c(0.24, 0, 11.31, 0), "<=", 14.8)
-add.constraint(lprec, c(12.68, 0, 0.08, 0.9), ">=", 4)
+add.constraint(lprec, c(0, 78.26, 1), "<=", 800)
+add.constraint(lprec, c(0.24, 0, 11.31), "<=", 700)
+add.constraint(lprec, c(12.68, 0, 0.08), "<=", 500)
+add.constraint(lprec, c(12.68, 0, 0.08), ">=", 0)
 set.bounds(lprec, lower = c(28.6, 18), columns = c(1, 4))
 set.bounds(lprec, upper = 48.98, columns = 4)
-RowNames <- c("THISROW", "THATROW", "LASTROW")
-ColNames <- c("COLONE", "COLTWO", "COLTHREE", "COLFOUR")
+RowNames <- c("Machine Time", "Assembly Time", "Finish Time" ,"Cost" )
+ColNames <- c("AS1", "AS2", "AS3")
 dimnames(lprec) <- list(RowNames, ColNames)
 
 ?make.lp
 ?set.objfn
 ?add.constraint
-
+?set.bounds
 
 #create an LP model with 10 constraints and 12 decision variables
 
