@@ -53,7 +53,7 @@ library(lpSolveAPI)
 # Minimize total production cost = Cost under regular run + Cost under special run. 
 # Cost = Specify an appropriate linear function of the decisions variables and parameters.
 
-
+#test
 
 lprec <- make.lp(3, 3)
 set.objfn(lprec, c(1, 3, 6.24))
