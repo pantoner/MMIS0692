@@ -67,6 +67,15 @@ RowNames <- c("Machine Time", "Assembly Time", "Finish Time" ,"Cost" )
 ColNames <- c("AS1", "AS2", "AS3")
 dimnames(lprec) <- list(RowNames, ColNames)
 
+solve(lprec)
+get.objective(lprec)
+
+get.variables(lprec)
+
+get.constraints(lprec)
+
+print(lprec)
+
 ?make.lp
 ?set.objfn
 ?add.constraint
