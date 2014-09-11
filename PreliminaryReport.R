@@ -117,3 +117,6 @@ lp.control(lpmodel,sense='max')
 
 #I in order to be able to visually check the model, I find it useful to write the model to a text file
 write.lp(lpmodel,'model.lp',type='lp')
+
+
+avg
