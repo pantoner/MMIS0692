@@ -12,10 +12,10 @@ as.character(production$COST)
 
 require(stringr)
 #drop dollar sign
-
+?str_sub
 cost<-stri_sub(production$COST,2)
 #convert cost to numeric
-production$COST<-as.numeric(cost)
+production$COST<-as.numeric(COST)
 #convert Machinetime, assemblytime and FINISHTIME to numeric
 production$MACHINETIME<- as.numeric(production$MACHINETIME)
 production$ASSEMBLYTIME<- as.numeric(production$ASSEMBLYTIME)
@@ -121,6 +121,8 @@ lp.control(lpmodel,sense='max')
 
 #I in order to be able to visually check the model, I find it useful to write the model to a text file
 write.lp(lpmodel,'model.lp',type='lp')
+require(plyr)
+ddply(production,~PRODUCTCODE,summarise,mean=mean(MACHINETIME),sd=sd(MACHINETIME))
 
 
 avg
