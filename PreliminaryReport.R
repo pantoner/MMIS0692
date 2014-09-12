@@ -54,6 +54,7 @@ library(lpSolveAPI)
 # Cost = Specify an appropriate linear function of the decisions variables and parameters.
 
 #test
+#add estimates to solve
 
 lprec <- make.lp(4, 3)
 set.objfn(lprec, c(1, 3, 6.24))
@@ -76,6 +77,9 @@ get.constraints(lprec)
 
 print(lprec)
 
+library(lpSolveAPI)
+library(lpSolve)
+?lpSolve
 ?make.lp
 ?set.objfn
 ?add.constraint
