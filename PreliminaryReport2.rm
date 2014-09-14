@@ -16,7 +16,7 @@ Subject to
 0 < M < 800*60/M
 0 < A < 800*60/M
 0 < F < 800*60/M
-
+trst
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
