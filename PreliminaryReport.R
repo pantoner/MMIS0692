@@ -7,15 +7,20 @@ production<- read.csv(text=rawToChar(
         )[["content"]] ) )
 
 names(production)
+class(production$COST)
 # convert from factor to character
-as.character(production$COST)
-
+production$COST<-as.character(production$COST)
+#install.packages(stringr)
 require(stringr)
 #drop dollar sign
 ?str_sub
-cost<-stri_sub(production$COST,2)
+cost<-str_sub(production$COST,2)
 #convert cost to numeric
-production$COST<-as.numeric(COST)
+production$COST<-as.numeric(cost)
+
+
+
+
 #convert Machinetime, assemblytime and FINISHTIME to numeric
 production$MACHINETIME<- as.numeric(production$MACHINETIME)
 production$ASSEMBLYTIME<- as.numeric(production$ASSEMBLYTIME)
@@ -125,4 +130,4 @@ require(plyr)
 ddply(production,~PRODUCTCODE,summarise,mean=mean(MACHINETIME),sd=sd(MACHINETIME))
 
 
-avg
+Xi^m + Xi^a + Xi^f = Xi
